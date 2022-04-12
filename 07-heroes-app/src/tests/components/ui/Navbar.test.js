@@ -37,6 +37,7 @@ describe("Pruebas en <Navbar />", () => {
 
 	test("debe de llamar el logout, llamar el navigate y el dispatch con los argumentos", () => {
 		wrapper.find("button").prop("onClick")();
+		
 		expect(contextValue.dispatch).toHaveBeenCalledWith({
 			payload: {},
 			type: types.logout,

@@ -6,6 +6,7 @@ import { types } from "../../types/types";
 export const LoginScreen = () => {
 	const navigate = useNavigate();
 	const { dispatch } = useContext(AuthContext);
+	
 	const handleLogin = () => {
 		const action = {
 			type: types.login,
