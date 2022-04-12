@@ -7,6 +7,7 @@ import { HeroCard } from "../hero/HeroCard";
 import { useForm } from "../hooks/useForm";
 
 export const SearchScreen = () => {
+	
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { q = "" } = queryString.parse(location.search);
