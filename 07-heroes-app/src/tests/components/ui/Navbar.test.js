@@ -1,9 +1,9 @@
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { mount } from "enzyme";
 
-import { AuthContext } from "../../../../auth/authContext";
-import { Navbar } from "../../../../components/ui/NavBar";
-import { types } from "../../../../types/types";
+import { AuthContext } from "../../../auth/authContext";
+import { Navbar } from "../../../components/ui/NavBar";
+import { types } from "../../../types/types";
 
 const mockNavigate = jest.fn();
 
