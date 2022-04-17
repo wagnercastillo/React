@@ -20,7 +20,7 @@ export const NoteScreen = () => {
 				></textarea>
 
 				<div className="notes__image">
-					<img src={pathImage} alt="Random image" />
+					<img src={pathImage} alt="Random" />
 				</div>
 			</div>
 		</div>

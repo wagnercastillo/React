@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
@@ -18,6 +18,7 @@ export const LoginScreen = () => {
 	const handleLogin = (e) => {
 		e.preventDefault();
 		dispatch(startLoginEmailPassword(email, password));
+		reset();
 	};
 
 	const handleGoogleLogin = (e) => {
