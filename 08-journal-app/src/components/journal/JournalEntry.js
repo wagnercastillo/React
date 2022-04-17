@@ -1,27 +1,34 @@
 import React from "react";
+import moment from "moment";
+import { useDispatch } from "react-redux";
+import { activeNote } from "../../actions/notes";
 
-export const JournalEntry = () => {
+export const JournalEntry = ({ id, date, title, body, url }) => {
+	const dispatch = useDispatch();
+	const noteDate = moment(date);
+	const handleEntryClick = () => {
+		dispatch(activeNote(id, { date, title, body, url }));
+	};
+
 	return (
 		<div>
-			<div className="journal__entry pointer">
-				<div
-					className="journal__entry-picture"
-					style={{
-						backgroundSize: "cover",
-						backgroundImage: `url(https://picsum.photos/200/300?random=${Math.random()})`,
-					}}
-				></div>
-
+			<div className="journal__entry pointer" onClick={handleEntryClick}>
+				{url && (
+					<div
+						className="journal__entry-picture"
+						style={{
+							backgroundSize: "cover",
+							backgroundImage: `url(https://picsum.photos/200/300?random=${Math.random()})`,
+						}}
+					></div>
+				)}
 				<div className="journal__entry-body">
-					<p className="journal__entry-title">Un nuevo día</p>
-					<p className="journal__entry-content">
-						Lorem ipsum es el texto que se usa habitualmente en diseño gráfico
-						en demostraciones 
-					</p>
+					<p className="journal__entry-title">{title}</p>
+					<p className="journal__entry-content">{body}</p>
 				</div>
 				<div className="journal__entry-date-box">
-					<span>Monday</span>
-					<h4>28</h4>
+					<span>{noteDate.format("dddd")}</span>
+					<h4>{noteDate.format("do")}</h4>
 				</div>
 			</div>
 		</div>

@@ -1,3 +1,4 @@
+import { type } from "@testing-library/user-event/dist/type";
 import { types } from "../types/types";
 
 const initialState = {
@@ -18,6 +19,15 @@ export const notesReducer = (state = initialState, action) => {
 			return {
 				...state,
 				notes: [...action.payload],
+			};
+
+		case types.notesUpdate:
+			return {
+				...state,
+				notes: state.notes.map( 
+					note => note.id === action.payload.id
+						? action.payload.note : note
+				)
 			};
 
 		default:
