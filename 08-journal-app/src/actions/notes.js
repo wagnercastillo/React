@@ -37,7 +37,6 @@ export const startLoadingNotes = (uid) => {
 		dispatch(setNotes(notes));
 	};
 };
-
 export const startSaveNote = (note) => {
 	return async (dispatch, getState) => {
 		const { uid } = getState().auth;

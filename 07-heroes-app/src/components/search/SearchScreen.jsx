@@ -49,6 +49,8 @@ export const SearchScreen = () => {
 							Buscar...
 						</button>
 					</form>
+
+
 				</div>
 				<div className="col-7">
 					<h4>Resultados</h4>
@@ -62,9 +64,11 @@ export const SearchScreen = () => {
 						)
 					)}
 
-					{heroesFitered.map((heroe) => (
-						<HeroCard key={heroe.id} {...heroe} />
-					))}
+					{	
+						heroesFitered.map((heroe) => (
+							<HeroCard key={heroe.id} {...heroe} />
+						))
+					}
 				</div>
 			</div>
 		</div>
