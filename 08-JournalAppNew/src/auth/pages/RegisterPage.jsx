@@ -1,52 +1,65 @@
-import { Link as RouterLink } from 'react-router-dom';
-import { Button, Grid, Link, TextField, Typography } from '@mui/material';
-import { AuthLayout } from '../layout/AuthLayout';
-import { useForm } from '../../hooks';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { startCreatingUserWithEmailPassword } from '../../store/auth/thunks';
+import { Link as RouterLink } from "react-router-dom";
+import { Button, Grid, Link, TextField, Typography } from "@mui/material";
+import { AuthLayout } from "../layout/AuthLayout";
+import { useForm } from "../../hooks";
+import { useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { startCreatingUserWithEmailPassword } from "../../store/auth/thunks";
 
 const formData = {
-  email: '',
-  password: '',
-  displayName: ''
-}
+  email: "",
+  password: "",
+  displayName: "",
+};
 
 const formValidations = {
-  displayName: [(value) => value.length >= 1, 'El nombre es obligatorio.'],
-  email: [(value) => value.includes('@'), 'El correo debe de tener un @'],
-  password: [(value) => value.length >= 6, 'El password debe de tener más de 6 letras.'],
-}
+  displayName: [(value) => value.length >= 1, "El nombre es obligatorio."],
+  email: [(value) => value.includes("@"), "El correo debe de tener un @"],
+  password: [
+    (value) => value.length >= 6,
+    "El password debe de tener más de 6 letras.",
+  ],
+};
 
 export const RegisterPage = () => {
   const dispatch = useDispatch();
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const {
-    onInputChange, displayName, email, password, formState,
-    isFormValid, displayNameValid, emailValid, passwordValid,
-  } = useForm(formData, formValidations);
+  const { status, errorMessage } = useSelector((state) => state.auth);
+  const isCheckingAuthentication = useMemo(
+    () => status === "cheching",
+    [status]
+  );
 
+  const {
+    onInputChange,
+    displayName,
+    email,
+    password,
+    formState,
+    isFormValid,
+    displayNameValid,
+    emailValid,
+    passwordValid,
+  } = useForm(formData, formValidations);
 
   const onSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
-    if ( !isFormValid ) return;
+    if (!isFormValid) return;
     dispatch(startCreatingUserWithEmailPassword(formState));
-  }
+  };
 
   return (
-
     <AuthLayout title="Crear cuenta">
-      <h1>FormValid: {isFormValid ? 'Válido' : 'Incorrecto'}</h1>
+      <h1>FormValid: {isFormValid ? "Válido" : "Incorrecto"}</h1>
       <form onSubmit={onSubmit}>
         <Grid container>
-
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
               label="Nombre completo"
               type="text"
-              placeholder='Nombre completo'
+              placeholder="Nombre completo"
               fullWidth
               name="displayName"
               value={displayName}
@@ -60,7 +73,7 @@ export const RegisterPage = () => {
             <TextField
               label="Correo"
               type="email"
-              placeholder='correo@google.com'
+              placeholder="correo@google.com"
               fullWidth
               name="email"
               value={email}
@@ -74,7 +87,7 @@ export const RegisterPage = () => {
             <TextField
               label="Contraseña"
               type="password"
-              placeholder='Contraseña'
+              placeholder="Contraseña"
               fullWidth
               name="password"
               value={password}
@@ -87,27 +100,24 @@ export const RegisterPage = () => {
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             <Grid item xs={12}>
               <Button
-                type='submit'
-                variant='contained'
-                fullWidth>
+                disabled={isCheckingAuthentication}
+                type="submit"
+                variant="contained"
+                fullWidth
+              >
                 Crear cuenta
               </Button>
             </Grid>
           </Grid>
 
-
-          <Grid container direction='row' justifyContent='end'>
+          <Grid container direction="row" justifyContent="end">
             <Typography sx={{ mr: 1 }}>¿Ya tienes cuenta?</Typography>
-            <Link component={RouterLink} color='inherit' to="/auth/login">
+            <Link component={RouterLink} color="inherit" to="/auth/login">
               ingresar
             </Link>
           </Grid>
-
         </Grid>
-
-
       </form>
-
     </AuthLayout>
-  )
-}
+  );
+};
