@@ -17,7 +17,7 @@ export const LoginPage = () => {
   const { email, password, onInputChange } = useForm({
     email: '',
     password: ''
-  })  ;
+  });
 
   const isAuthenticating = useMemo(() => status === 'checking', [status]);
 
@@ -35,7 +35,9 @@ export const LoginPage = () => {
 
   return (
     <AuthLayout title="Login">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit}
+        className='animate__animated animate__fadeIn animate__faster'
+      >
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -70,44 +72,44 @@ export const LoginPage = () => {
               item
               xs={12}
             >
-            <Alert severity='error'>{errorMessage}</Alert>
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
-          <Grid item xs={12} sm={6}>
-            <Button
-              disabled={isAuthenticating}
-              type="Submit"
-              variant='contained'
-              fullWidth >
-              Login
-            </Button>
+              <Alert severity='error'>{errorMessage}</Alert>
+            </Grid>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <Button
-              disabled={isAuthenticating}
-              variant='contained'
-              fullWidth
-              onClick={onGoogleSignIn} >
-              <Google />
-              <Typography sx={{ ml: 1 }}>Google</Typography>
-            </Button>
+          <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
+            <Grid item xs={12} sm={6}>
+              <Button
+                disabled={isAuthenticating}
+                type="Submit"
+                variant='contained'
+                fullWidth >
+                Login
+              </Button>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Button
+                disabled={isAuthenticating}
+                variant='contained'
+                fullWidth
+                onClick={onGoogleSignIn} >
+                <Google />
+                <Typography sx={{ ml: 1 }}>Google</Typography>
+              </Button>
+            </Grid>
           </Grid>
+
+
+          <Grid container direction='row' justifyContent='end'>
+            <Link component={RouterLink} color='inherit' to="/auth/register">
+              Crear una cuenta
+            </Link>
+          </Grid>
+
         </Grid>
 
 
-        <Grid container direction='row' justifyContent='end'>
-          <Link component={RouterLink} color='inherit' to="/auth/register">
-            Crear una cuenta
-          </Link>
-        </Grid>
-
-      </Grid>
-
-
-    </form>
+      </form>
 
     </AuthLayout >
   )
