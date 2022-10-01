@@ -44,11 +44,11 @@ export const journalSlice = createSlice({
 
         },
         updateNotes: (state, action) => {
-            state.isSaving = false;
+            
             state.notes = state.notes.map( note => {
                 
                 if(note.id === action.payload.id) {
-                    return action.payload;
+                    return action.payload.remove(note.id)
                 }
                 return note;
 
@@ -71,7 +71,9 @@ export const journalSlice = createSlice({
             state.active = null;
 
         },
-        deleteNodeById: (state, action) => {
+        deleteNoteById: (state, action) => {
+            state.active = null; 
+            state.notes = state.notes.filter( note => note.id !== action.payload );
 
         },
 
@@ -81,7 +83,7 @@ export const journalSlice = createSlice({
 export const {
     addNewEmptyNote,
     clearNotesLogout,
-    deleteNodeById,
+    deleteNoteById,
     savigNewNote,
     setActiveNote,
     setNotes,
