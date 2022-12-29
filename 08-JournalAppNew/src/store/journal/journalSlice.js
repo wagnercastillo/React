@@ -13,8 +13,7 @@ export const journalSlice = createSlice({
         //     title: '',
         //     body: '',
         //     date: 12345,
-        //     imageURls: [],
-
+        //     imageURls: [], // https://foto1.jpg, https://foto2.jpg, https://foto3.jpg
         // },
 
     },
@@ -40,18 +39,19 @@ export const journalSlice = createSlice({
         setSaving: (state, action) => {
             state.isSaving = true;
             state.messageSaved = '';
-            //TODO: Mensaje de error
+            
 
         },
         updateNotes: (state, action) => {
             
-            state.notes = state.notes.map( note => {
-                
-                if(note.id === action.payload.id) {
-                    return action.payload.remove(note.id)
-                }
-                return note;
+            state.isSaving = false;
 
+            state.notes = state.notes.map( note => {
+                if ( note.id === action.payload.id ) {
+                    return action.payload;
+                }
+
+                return note;
                 
             });
 
@@ -59,7 +59,7 @@ export const journalSlice = createSlice({
 
         },
         setPhotosToActiveNote: (state, action) =>{
-            state.active.imageURls = [ ... state.active.imageURls, ...action.payload ];
+            state.active.imageURls = [ ...state.active.imageURls, ...action.payload ]; 
             state.isSaving = false;
 
         },
