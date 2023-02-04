@@ -1,33 +1,102 @@
 const { response } = require('express');
-const { validationResult } = require('express-validator');
+const Usuario = require('../models/Usuario');
+const bcrypt = require('bcryptjs');
+const { generarJWT } = require('../helpers/jwt');
 
 
-
-const crearUsuario = (req, res = response )=> {
+const crearUsuario = async (req, res = response )=> {
     
-    const { name, email, password } = req.body;
+    const { email, password } = req.body;
 
-    res.status(201).json({
-        ok:true,
-        msg: 'register',    
-        name,
-        email,
-        password
-    });
+    try {
+        
+        let usuario = await Usuario.findOne({ email })
+
+        if( usuario ) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Un usuario existe con ese correo'
+            });
+        }
+    
+        usuario = new Usuario(req.body);
+
+        // Encriptar la contraseña
+        const salt = bcrypt.genSaltSync();
+        usuario.password = bcrypt.hashSync( password, salt );
+
+
+        // Generar JWT
+        const token = await generarJWT( usuario.id, usuario.name );
+
+
+        await usuario.save();
+    
+        res.status(201).json({
+            ok: true,
+            uid: usuario.id,
+            name: usuario.name,
+            token
+        });
+        
+    } catch (error) {
+        console.log(error);    
+        res.status(500).json({
+            ok: false,
+            msg: 'hable con el ing'
+        });
+    }
     
 }
 
 
-const loginUsuario = (req, res = response)=> {
+const loginUsuario = async (req, res = response)=> {
 
     const { email, password } = req.body;
     
-    res.status(201).json({
-        ok:true,
-        msg: 'login',
-        email, 
-        password
-    });
+    try {
+        
+        const usuario = await Usuario.findOne({ email })
+
+        if( !usuario ) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Usuario y contraseñas incorrectos'
+            });
+        }
+
+        // Confirmar el Match de los Passwords
+
+        const validPassword = bcrypt.compareSync(password, usuario.password)
+        
+        if(!validPassword) {
+            res.status(400).json({
+                ok: false,
+                msg: 'Contraseña incorrecta'
+            });
+        }
+
+        // Generar JWT
+        const token = await generarJWT( usuario.id, usuario.name );
+
+
+
+        res.json({
+            ok: true,
+            uid: usuario.id,
+            name: usuario.name,
+            token
+
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(201).json({
+            ok:true,
+            msg: 'Hable con el adminstrador',
+        });
+        
+    }
 
 }
 
