@@ -21,7 +21,7 @@ router.post('/new',[
 ], crearUsuario );
 
 
-router.post('/', [
+router.post('/', [  
     check('email','El email es un campo obligatorio').isEmail(),
     check('password','El password debe de ser de 6 caracteres').isLength({ min:6 }),
     validarCampos,

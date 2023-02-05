@@ -23,6 +23,7 @@ app.use(express.json()); // Permite procesar el contenido json entrante
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/events', require('./routes/events'));
 
 
 app.listen(PORT, ()=>{
