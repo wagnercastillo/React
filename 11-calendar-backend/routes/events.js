@@ -26,7 +26,13 @@ router.post("/", [
   
 ], crearEvento);
 
-router.put("/:id",  actualizarEvento);
+router.put("/:id", [
+  check('title', 'El titulo es necesario').not().isEmpty(),
+  check('start', 'El fecha de inicio es necesario').custom(isDate).not().isEmpty(),
+  check('end', 'end es necesario').custom(isDate).not().isEmpty(),
+  check('user', 'El user es necesario'),  
+  validarCampos
+], actualizarEvento);
 
 router.delete("/:id",  eliminarEvento);
 
