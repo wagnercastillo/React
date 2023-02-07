@@ -6,11 +6,11 @@ import { store } from "./store"
 export const CalendarApp = () => {
   return (
     <Provider store={ store }>
-      {/* <BrowserRouter> */ }
-        <HashRouter>
+        {/* <HashRouter> */}
+       <BrowserRouter> 
           <AppRouter />
-        </HashRouter>
-      {/* </BrowserRouter> */}
+|     </BrowserRouter> 
+        {/* </HashRouter> */}
     </Provider>
   )
 }
